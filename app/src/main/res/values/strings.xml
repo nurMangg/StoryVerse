@@ -1,0 +1,34 @@
+<resources>
+    <string name="app_name">LoginWithAnimation</string>
+    <string name="signup">Daftar</string>
+    <string name="login">Masuk</string>
+    <string name="message_welcome_page">Capture, and share your lifes moments in dynamic stories with ease and creativity!</string>
+    <string name="title_welcome_page">Selamat datang di StoryVerse!</string>
+    <string name="title_signup_page">Lengkapi data dirimu di bawah ini ya</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="message_login_page">Masukkan dulu datamu ya</string>
+    <string name="title_login_page">Siap mengabadikan momen dan berbagi cerita?</string>
+    <string name="name">Nama</string>
+    <string name="message_main_page">Selamat Belajar di Dicoding.</string>
+    <string name="greeting">Halo %1$s,</string>
+    <string name="logout">Keluar</string>
+    <string name="check_input">Input cannot be empty</string>
+    <string name="input_pass">Input Your Password</string>
+    <string name="pass_length">Password must be at least 8 characters</string>
+    <string name="input_email">Input your email</string>
+    <string name="invalid_email">Invalid format</string>
+    <string name="setting">setting</string>
+    <string name="add_story">Add Story</string>
+    <string name="description">description</string>
+    <string name="preview">Preview</string>
+    <string name="camera">Camera</string>
+    <string name="gallery">Gallery</string>
+    <string name="upload">Upload</string>
+    <string name="didnt_get_permission">Didn\\\'t get permission</string>
+    <string name="input_image_first">Input image first</string>
+    <string name="title_addingstory">Add Your Story</string>
+    <string name="title_splash">StoryVerse</string>
+    <string name="success_logout">Success Logout</string>
+
+</resources>
