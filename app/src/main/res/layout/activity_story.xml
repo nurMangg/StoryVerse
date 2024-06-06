@@ -106,6 +106,19 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/ed_add_description" />
+
+            <Switch
+                android:id="@+id/switchLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/use_gps_location"
+                android:checked="false"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/ed_add_description"
+                android:layout_marginStart="16dp"
+                tools:ignore="UseSwitchCompatOrMaterialXml" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

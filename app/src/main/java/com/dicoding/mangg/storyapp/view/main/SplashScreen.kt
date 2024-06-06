@@ -16,6 +16,8 @@ class SplashScreen : AppCompatActivity() {
         binding = ActivitySplashScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        supportActionBar?.hide()
+
         playAnimation()
         binding.splashImage.postDelayed({
             startActivity(Intent(this, MainActivity::class.java))

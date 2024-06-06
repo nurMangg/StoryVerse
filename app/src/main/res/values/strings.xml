@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LoginWithAnimation</string>
+    <string name="app_name">StoryVerse</string>
     <string name="signup">Daftar</string>
     <string name="login">Masuk</string>
     <string name="message_welcome_page">Capture, and share your lifes moments in dynamic stories with ease and creativity!</string>
@@ -18,7 +18,7 @@
     <string name="pass_length">Password must be at least 8 characters</string>
     <string name="input_email">Input your email</string>
     <string name="invalid_email">Invalid format</string>
-    <string name="setting">setting</string>
+    <string name="setting">Setting</string>
     <string name="add_story">Add Story</string>
     <string name="description">description</string>
     <string name="preview">Preview</string>
@@ -30,5 +30,12 @@
     <string name="title_addingstory">Add Your Story</string>
     <string name="title_splash">StoryVerse</string>
     <string name="success_logout">Success Logout</string>
+    <string name="title_activity_maps">MapsActivity</string>
+    <string name="retry">Coba Lagi</string>
+    <string name="story_from">Story Dari&#160;</string>
+    <string name="maps">Maps</string>
+    <string name="location_not_found">Location Not Found</string>
+    <string name="permission_denied">Permission Denied</string>
+    <string name="use_gps_location">Use GPS Location</string>
 
 </resources>

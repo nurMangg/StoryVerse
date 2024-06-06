@@ -1,60 +1,23 @@
 package com.dicoding.mangg.storyapp.view.story
 
-import android.util.Log
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.dicoding.mangg.storyapp.data.Resource
-import com.dicoding.mangg.storyapp.data.network.api.ApiConfig
-import com.dicoding.mangg.storyapp.data.network.response.BaseResponse
-import com.dicoding.mangg.storyapp.data.pref.UserPreference
-import com.google.gson.Gson
-import kotlinx.coroutines.flow.first
+import com.dicoding.mangg.storyapp.data.model.User
+import com.dicoding.mangg.storyapp.data.repo.StoryRepository
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
-class StoryViewModel(private val pref: UserPreference) : ViewModel() {
+class StoryViewModel(private val repository: StoryRepository) : ViewModel() {
 
-    private val _uploadInfo = MutableLiveData<Resource<String>>()
-    val uploadInfo: LiveData<Resource<String>> = _uploadInfo
-
-    suspend fun uploadStory(
-        imageMultipart: MultipartBody.Part,
+    fun addStory(
+        token: String,
+        file: MultipartBody.Part,
         description: RequestBody,
-    ) {
-        _uploadInfo.postValue(Resource.Loading())
-        val client = ApiConfig.getApiClient().addStory(
-            token = "Bearer ${pref.getToken().first()}",
-            imageMultipart,
-            description
-        )
+        lat: Double?,
+        long: Double?
+    ) = repository.addStory(token, file, description, lat, long)
 
-        client.enqueue(object : Callback<BaseResponse> {
-            override fun onResponse(
-                call: Call<BaseResponse>,
-                response: Response<BaseResponse>
-            ) {
-                if (response.isSuccessful) {
-                    _uploadInfo.postValue(Resource.Success(response.body()?.message))
-                } else {
-                    val errorResponse = Gson().fromJson(
-                        response.errorBody()?.charStream(),
-                        BaseResponse::class.java
-                    )
-                    _uploadInfo.postValue(Resource.Error(errorResponse.message))
-                }
-            }
-
-            override fun onFailure(call: Call<BaseResponse>, t: Throwable) {
-                Log.e(
-                    StoryViewModel::class.java.simpleName,
-                    "onFailure upload"
-                )
-                _uploadInfo.postValue(Resource.Error(t.message))
-            }
-        })
+    fun getUser(): LiveData<User> {
+        return repository.getUserData()
     }
 }

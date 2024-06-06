@@ -14,8 +14,8 @@ import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.ViewModelProvider
 import com.dicoding.mangg.storyapp.R
-import com.dicoding.mangg.storyapp.data.Resource
-import com.dicoding.mangg.storyapp.data.pref.UserPreference
+import com.dicoding.mangg.storyapp.data.model.User
+import com.dicoding.mangg.storyapp.data.result.Result
 import com.dicoding.mangg.storyapp.databinding.ActivityLoginBinding
 import com.dicoding.mangg.storyapp.view.ViewModelFactory
 import com.dicoding.mangg.storyapp.view.main.MainActivity
@@ -33,7 +33,6 @@ class LoginActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         setupViewModel()
-        setupView()
         setupAction()
 
         playAnimation()
@@ -77,22 +76,6 @@ class LoginActivity : AppCompatActivity() {
         }
     }
 
-    private fun setupView() {
-        userViewModel.userInfo.observe(this) {
-            when (it) {
-                is Resource.Success -> {
-                    showLoad(false)
-                    showSuccessDialog()
-                }
-
-                is Resource.Loading -> showLoad(true)
-                is Resource.Error -> {
-                    Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()
-                    showLoad(false)
-                }
-            }
-        }
-    }
 
     private fun showLoad(isLoad: Boolean) {
         binding.progressBar.visibility = if (isLoad) View.VISIBLE else View.GONE
@@ -107,7 +90,7 @@ class LoginActivity : AppCompatActivity() {
                     val intent = Intent(context, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
                     startActivity(intent)
-                    finish()
+                    finishAffinity()
                 }
                 create()
                 show()
@@ -116,8 +99,12 @@ class LoginActivity : AppCompatActivity() {
     }
 
     private fun setupViewModel() {
-        val pref = UserPreference.getInstance(dataStore)
-        userViewModel = ViewModelProvider(this, ViewModelFactory(pref))[UserViewModel::class.java]
+        val factory: ViewModelFactory = ViewModelFactory.getInstance(this)
+        userViewModel = ViewModelProvider(this, factory)[UserViewModel::class.java]
+    }
+
+    private fun saveUserData(user: User) {
+        userViewModel.saveUser(user)
     }
 
     private fun setupAction() {
@@ -125,7 +112,28 @@ class LoginActivity : AppCompatActivity() {
             if (valid()) {
                 val email = binding.edLoginEmail.text.toString()
                 val password = binding.edLoginPassword.text.toString()
-                userViewModel.login(email, password)
+                userViewModel.userLogin(email, password).observe(this) {
+                    when (it) {
+                        is Result.Success -> {
+                            showLoad(false)
+                            val response = it.data
+                            saveUserData(
+                                User(
+                                    response.loginResult?.name.toString(),
+                                    response.loginResult?.token.toString(),
+                                    true
+                                )
+                            )
+                            showSuccessDialog()
+                        }
+
+                        is Result.Loading -> showLoad(true)
+                        is Result.Error -> {
+                            Toast.makeText(this, it.error, Toast.LENGTH_SHORT).show()
+                            showLoad(false)
+                        }
+                    }
+                }
             } else {
                 Toast.makeText(
                     this,
